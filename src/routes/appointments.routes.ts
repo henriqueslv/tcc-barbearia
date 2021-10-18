@@ -8,9 +8,10 @@ import AppointmentsRepository from '../repositories/AppointmentsRepository';
 const appointmentsRouter = Router();
 
 // Rota GET
-appointmentsRouter.get('/', (request, response) => {
+appointmentsRouter.get('/', async (request, response) => {
   const appointmentRepository = getCustomRepository (AppointmentsRepository);
-  const appointments = appointmentRepository.find();
+  const appointments = await appointmentRepository.find();
+  
   return response.json(appointments);
 });
 
