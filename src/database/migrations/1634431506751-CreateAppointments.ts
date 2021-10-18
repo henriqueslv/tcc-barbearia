@@ -12,6 +12,7 @@ export class CreateAppointments1634431506751 implements MigrationInterface {
                         type: 'varchar',
                         isPrimary: true,
                         generationStrategy: 'uuid',
+                        default: 'uuid_generate_v4()',
                     },
                     {
                         name: 'provider',
@@ -22,9 +23,10 @@ export class CreateAppointments1634431506751 implements MigrationInterface {
                         name: 'date',
                         type: 'timestamp with time zone',
                         isNullable: false,
-                    }
-                ]
-            })
+                    },
+                ],
+            }),
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
