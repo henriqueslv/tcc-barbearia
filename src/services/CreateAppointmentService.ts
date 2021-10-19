@@ -21,7 +21,7 @@ class CreateAppointmentService {
     );
 
     if (findAppointmentInSameDate) {
-     throw Error('Este horário já está reservado. ');
+     throw Error('Este horário já está reservado.');
     }
 
     const appointment = appointmentsRepository.create({
