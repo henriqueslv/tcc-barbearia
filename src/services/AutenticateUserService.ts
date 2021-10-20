@@ -2,6 +2,7 @@ import { compare } from 'bcryptjs';
 import { getRepository } from 'typeorm';
 import User from '../models/User';
 import { sign } from 'jsonwebtoken';
+import authConfig from '../config/auth'
 
 interface Request{
     email: string;
@@ -29,9 +30,9 @@ class AutenticateUserService{
             throw new Error("Dados incorretos.");    
         }
 
-        const token = sign({}, '4a9e56f67b65cf6436d9c1dcf9e4bb45', {
+        const token = sign({}, authConfig.jwt.secret, {
             subject: user.id,
-            expiresIn: '1d'
+            expiresIn: authConfig.jwt.expiresIn
         });
 
 

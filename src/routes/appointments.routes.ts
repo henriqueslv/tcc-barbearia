@@ -4,8 +4,11 @@ import { getCustomRepository } from 'typeorm';
 import AppointmentsReposiroty from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
+import ensureAutenticated from '../middlewares/ensureAutenticated';
 
 const appointmentsRouter = Router();
+
+appointmentsRouter.use(ensureAutenticated);
 
 // Rota GET
 appointmentsRouter.get('/', async (request, response) => {
