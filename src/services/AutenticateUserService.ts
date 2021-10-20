@@ -1,7 +1,7 @@
 import { compare } from 'bcryptjs';
 import { getRepository } from 'typeorm';
-//import { compare, hash } from 'bcryptjs';
 import User from '../models/User';
+import { sign } from 'jsonwebtoken';
 
 interface Request{
     email: string;
@@ -10,6 +10,7 @@ interface Request{
 
 interface Response{
     user: User;
+    token: string;
 }
 
 class AutenticateUserService{
@@ -28,8 +29,15 @@ class AutenticateUserService{
             throw new Error("Dados incorretos.");    
         }
 
+        const token = sign({}, '4a9e56f67b65cf6436d9c1dcf9e4bb45', {
+            subject: user.id,
+            expiresIn: '1d'
+        });
+
+
         return{
             user,
+            token,
         };
     }
 } 
