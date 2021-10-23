@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
-import User from '../models/User';
-import uploadConfig from '../config/upload';
+import User from '../entities/User';
+import uploadConfig from '../../../config/upload';
 import { fromString } from 'uuidv4';
 import path from 'path';
 import fs from 'fs';
