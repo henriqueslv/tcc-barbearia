@@ -1,9 +1,9 @@
-import { getRepository } from 'typeorm';
-import User from '../entities/User';
-import uploadConfig from '../../../config/upload';
-import { fromString } from 'uuidv4';
 import path from 'path';
+import User from '../infra/typeorm/entities/User';
 import fs from 'fs';
+import uploadConfig from '../../../config/upload';
+import IUsersRepository from '../repositories/IUsersRepository';
+
 
 interface Request{
     user_id:string;
@@ -11,10 +11,11 @@ interface Request{
 }
 
 class UpdateUserAvatarService{
-    public async execute({ user_id, avatarFilename}: Request): Promise<User>{
-        const userRepository = getRepository(User);
+    constructor(private usersRepository: IUsersRepository){}
 
-        const user = await userRepository.findOne(user_id);
+    public async execute({ user_id, avatarFilename}: Request): Promise<User>{
+
+        const user = await this.usersRepository.findById(user_id);
 
         if (!user){
             throw new Error("Apenas usuários autorizados podem mudar o avatar");
@@ -33,7 +34,7 @@ class UpdateUserAvatarService{
 
         user.avatar = avatarFilename;
 
-        await userRepository.save(user); 
+        await this.usersRepository.save(user); 
 
         return user;
     }
