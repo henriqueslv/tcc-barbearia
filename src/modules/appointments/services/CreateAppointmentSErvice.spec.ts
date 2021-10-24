@@ -6,8 +6,9 @@ describe('Criar Agendamento', () =>{
         const fakeAppointmentsRepository = new FakeAppointmentsRepository();
         const createAppointment = new CreateAppointmentService(fakeAppointmentsRepository,);
 
+        const appointmentDate = new Date(2021,8,25,11);
         const appointment = await createAppointment.execute({
-            date: new Date(),
+            date: appointmentDate,
             provider_id: '123123123',
         });
 
@@ -16,6 +17,19 @@ describe('Criar Agendamento', () =>{
 
         });
     
-    //it('Nao deve ser permitido criar dois agendamentos no mesmo horario', ()=>{
-    //});
+    it('Nao deve ser permitido criar dois agendamentos no mesmo horario', async ()=>{
+        const fakeAppointmentsRepository = new FakeAppointmentsRepository();
+        const createAppointment = new CreateAppointmentService(fakeAppointmentsRepository,);
+
+        await createAppointment.execute({
+            date: new Date(),
+            provider_id: '123123123',
+            });
+
+            expect(createAppointment.execute({
+                date: new Date(),
+                provider_id: '123123123',
+                })).rejects.toBeInstanceOf(Error);
+
+        });
 });
