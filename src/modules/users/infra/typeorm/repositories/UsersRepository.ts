@@ -1,4 +1,4 @@
-import { EntityRepository, Repository} from 'typeorm'
+import {Repository} from 'typeorm'
 import { getRepository } from 'typeorm';
 import IUsersRepository from '../../../repositories/IUsersRepository';
 import ICreateUserDTO from '../../../dtos/ICreateUserDTO';
