@@ -11,9 +11,9 @@ export default class ProfileControler {
 
         const usersRepository = new UsersRepository();
         
-        const showeProfile = new ShowProfileService(usersRepository);
+        const showProfile = new ShowProfileService(usersRepository);
 
-        const user = await showeProfile.execute({user_id})
+        const user = await showProfile.execute({user_id})
 
         delete user.password;
 
