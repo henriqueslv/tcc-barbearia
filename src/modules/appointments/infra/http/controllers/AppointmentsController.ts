@@ -6,17 +6,20 @@ import CreateAppointmentService from '../../../services/CreateAppointmentService
 export default class AppointmentsController{
     public async create(request: Request, response: Response): Promise <Response>{
         try {
-            const { provider_id, date } = request.body;
+          const user_id = request.user.id;
+
+          const { provider_id, date } = request.body;
         
-            const parsedDate = parseISO(date);
+          const parsedDate = parseISO(date);
         
-            const appointmentRepository = new AppointmentsRepository();
-            const createAppointment = new CreateAppointmentService(appointmentRepository);
+          const appointmentRepository = new AppointmentsRepository();
+          const createAppointment = new CreateAppointmentService(appointmentRepository);
         
-            const appointment = await createAppointment.execute({
-              date: parsedDate,
-              provider_id,
-            });
+          const appointment = await createAppointment.execute({
+            date: parsedDate,
+            provider_id,
+            user_id,
+          });
         
             return response.json(appointment);
           } catch (err) {
