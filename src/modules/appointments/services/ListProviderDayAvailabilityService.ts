@@ -18,7 +18,7 @@ type IResponse = Array<{
 class ListProviderDayAvailabilityService{
     constructor(private appointmentsRepository: IAppointmentsRepository){}
 
-    public async execute({ provider_id, day, month, year }: Request): Promise<IResponse>{ 
+    public async execute({ provider_id, day, month, year, }: Request): Promise<IResponse>{ 
         const appointments = await this.appointmentsRepository.findAllInDayFromProvider({
             provider_id,
             day,

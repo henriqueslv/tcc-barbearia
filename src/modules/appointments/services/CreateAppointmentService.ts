@@ -1,5 +1,4 @@
-import { startOfHour, isBefore } from 'date-fns';
-import getHours from 'date-fns/getHours';
+import { startOfHour, isBefore, getHours } from 'date-fns';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
@@ -17,15 +16,15 @@ class CreateAppointmentService {
     const appointmentDate = startOfHour(date);
 
     if(isBefore(appointmentDate, Date.now())){
-      throw new Error('Você não pode criar um agendamento em data passada')
+      throw new Error('Você não pode criar um agendamento em data passada');
     }
 
     if(user_id === provider_id){
-      throw new Error('Você não pode criar um agendamento com você mesmo')
+      throw new Error('Você não pode criar um agendamento com você mesmo');
     }
 
     if(getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17){
-      throw new Error('Você só pode criar agendamento das 8:00 às 17:00git ')
+      throw new Error('Você só pode criar agendamento das 8:00 às 17:00');
     }
 
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
