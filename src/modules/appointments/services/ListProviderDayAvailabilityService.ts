@@ -1,7 +1,7 @@
 import { getHours, isAfter } from 'date-fns';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
-interface Request{
+interface IRequest{
     provider_id: string;
     day: number;
     month: number;
@@ -16,15 +16,18 @@ type IResponse = Array<{
 
 
 class ListProviderDayAvailabilityService{
-    constructor(private appointmentsRepository: IAppointmentsRepository){}
+    constructor(private appointmentsRepository: IAppointmentsRepository,){}
 
-    public async execute({ provider_id, day, month, year, }: Request): Promise<IResponse>{ 
-        const appointments = await this.appointmentsRepository.findAllInDayFromProvider({
-            provider_id,
-            day,
-            year,
-            month,
-        });
+    public async execute({ provider_id, day, month, year, }: IRequest): Promise<IResponse>{ 
+
+        const appointments = await this.appointmentsRepository.findAllInDayFromProvider(
+            {
+              provider_id,
+              month,
+              year,
+              day,
+            },
+          );
         
         const hourStart = 8;
         

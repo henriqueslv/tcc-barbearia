@@ -8,6 +8,7 @@ import IFindAllInDayFromProviderDTO from 'src/modules/appointments/dtos/IFindAll
 import Appointment from '../entities/Appointment';
 
 class AppointmentsRepository implements IAppointmentsRepository{
+  
   private ormReposity: Repository<Appointment>;
 
   constructor(){
@@ -43,7 +44,7 @@ class AppointmentsRepository implements IAppointmentsRepository{
     const appointments = await this.ormReposity.find({
       where: {
         provider_id,
-        date: Raw(dateFieldName => `to_char(${dateFieldName}, 'DD-MM-YYYY') = '${parseDay} - ${parseMonth}-${year}'`),
+        date: Raw(dateFieldName => `to_char(${dateFieldName},'DD-MM-YYYY') = '${parseDay}-${parseMonth}-${year}'`),
       },
 
       relations: ['user'],
@@ -58,7 +59,10 @@ class AppointmentsRepository implements IAppointmentsRepository{
     const appointment = this.ormReposity.create({provider_id, user_id, date});
 
     await this.ormReposity.save(appointment);
+
+    return appointment;
   }
+
 
 }
 

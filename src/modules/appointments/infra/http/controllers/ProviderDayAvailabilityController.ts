@@ -3,7 +3,7 @@ import AppointmentsRepository from '../../typeorm/repositories/AppointmentsRepos
 import ListProviderDayAvailabilityService from "src/modules/appointments/services/ListProviderDayAvailabilityService";
 
 
-export default class ProviderMonthAvailabilityController{
+export default class ProviderDayAvailabilityController{
     public async index(request: Request, response: Response): Promise <Response>{
     
             const {provider_id} = request.params;
@@ -11,10 +11,9 @@ export default class ProviderMonthAvailabilityController{
             
             const appointmentsRepository = new AppointmentsRepository();
 
-            const listProviderDayvailabilityService = new ListProviderDayAvailabilityService(appointmentsRepository);
+            const listProviderDayAvailabilityService = new ListProviderDayAvailabilityService(appointmentsRepository);
 
-        
-            const availability = await listProviderDayvailabilityService.execute({
+            const availability = await listProviderDayAvailabilityService.execute({
                 provider_id,
                 day,
                 month,

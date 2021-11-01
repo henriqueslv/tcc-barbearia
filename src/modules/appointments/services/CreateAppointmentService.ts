@@ -1,4 +1,4 @@
-import { startOfHour, isBefore, getHours } from 'date-fns';
+import { startOfHour, isBefore, getHours, format } from 'date-fns';
 import Appointment from '../infra/typeorm/entities/Appointment';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 
@@ -26,9 +26,10 @@ class CreateAppointmentService {
     if(getHours(appointmentDate) < 8 || getHours(appointmentDate) > 17){
       throw new Error('Você só pode criar agendamento das 8:00 às 17:00');
     }
-
+  
     const findAppointmentInSameDate = await this.appointmentsRepository.findByDate(
       appointmentDate,
+      provider_id,
     );
 
     if (findAppointmentInSameDate) {
