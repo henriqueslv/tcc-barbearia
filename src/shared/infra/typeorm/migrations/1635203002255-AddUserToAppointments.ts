@@ -11,7 +11,7 @@ export default class AddUserToAppointments1635203002255 implements MigrationInte
         }),
     );
         await queryRunner.createForeignKey('appointments', new TableForeignKey({
-            name: 'AppointmentUs er',
+            name: 'AppointmentUser',
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'users',
