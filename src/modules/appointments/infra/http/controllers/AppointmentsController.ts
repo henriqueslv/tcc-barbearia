@@ -22,7 +22,7 @@ export default class AppointmentsController{
           });
         
             return response.json(appointment);
-          } catch (err) {
+          } catch (err: any) {
             return response.status(400).json({ Error: err.message });
           }
     }

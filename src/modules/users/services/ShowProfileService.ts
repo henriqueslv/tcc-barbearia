@@ -16,6 +16,12 @@ class ShowProfileService{
             throw new Error("Apenas usuários autorizados podem mudar o avatar");
         }
 
+        if(user){
+            if(!user.avatar.startsWith('http')){
+                user.avatar = 'http://localhost:3333/files/'+user.avatar
+            }
+        }
+
         return user;
 
 }}

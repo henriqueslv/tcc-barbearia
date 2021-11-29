@@ -1,11 +1,8 @@
-import {Not, Repository} from 'typeorm'
-import { getRepository } from 'typeorm';
+import {getRepository, Not, Repository} from 'typeorm'
 import IUsersRepository from '../../../repositories/IUsersRepository';
 import ICreateUserDTO from '../../../dtos/ICreateUserDTO';
 import IFindAllProvidersDTO from 'src/modules/users/dtos/IFindAllProvidersDTO';
-
 import User from '../entities/User';
-
 class UsersRepository implements IUsersRepository{
   private ormReposity: Repository<User>;
 
@@ -15,7 +12,11 @@ class UsersRepository implements IUsersRepository{
 
   public async findById(id: string): Promise<User | undefined>{
     const user = await this.ormReposity.findOne(id);
-
+    if(user){
+      if(!user.avatar.startsWith('http')){
+          user.avatar = 'http://localhost:3333/files/'+user.avatar
+      }
+    }
     return user;
   }
 
@@ -23,7 +24,11 @@ class UsersRepository implements IUsersRepository{
     const user = await this.ormReposity.findOne({
         where: { email },
     });
-    
+    if(user){
+      if(!user.avatar.startsWith('http')){
+          user.avatar = 'http://localhost:3333/files/'+user.avatar
+      }
+    }
     return user;
 }
 
@@ -40,15 +45,28 @@ public async findAllProviders({except_user_id}: IFindAllProvidersDTO): Promise<U
      users = await this.ormReposity.find();
   }
 
+  users.forEach(user => {
+    if(user){
+      if(!user.avatar.startsWith('http')){
+          user.avatar = 'http://localhost:3333/files/'+user.avatar
+      }
+    }
+  });
+
   return users;
 
 }
 
   public async create(userData: ICreateUserDTO): Promise<User>{
-    const appointment = this.ormReposity.create(userData);
+    const user = this.ormReposity.create(userData);
 
-    await this.ormReposity.save(appointment);
-    return appointment;
+    await this.ormReposity.save(user);
+    if(user){
+      if(!user.avatar.startsWith('http')){
+          user.avatar = 'http://localhost:3333/files/'+user.avatar
+      }
+    }
+    return user;
   }
 
   public async save(user: User): Promise<User>{

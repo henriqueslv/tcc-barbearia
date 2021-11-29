@@ -14,6 +14,15 @@ class ListProviderService{
             except_user_id: user_id,
         });
 
+
+        users.forEach(user => {
+            if(user){
+                if(!user.avatar.startsWith('http')){
+                    user.avatar = 'http://localhost:3333/files/'+user.avatar
+                }
+            }
+        });
+
         return users;
     }
 }

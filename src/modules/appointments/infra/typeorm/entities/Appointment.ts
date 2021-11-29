@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { 
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+ } from 'typeorm';
 import User from '../../../../users/infra/typeorm/entities/User';
 
 @Entity('appointments')
@@ -22,6 +29,12 @@ class Appointment {
 
   @Column('timestamp with time zone')
   date: Date;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @CreateDateColumn()
+  updated_at: Date;
 }
 
 export default Appointment;

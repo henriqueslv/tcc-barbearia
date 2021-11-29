@@ -27,6 +27,11 @@ class CreateUserService{
             password: hashedPassword,
         });
 
+        if(user){
+            if(!user.avatar.startsWith('http')){
+                user.avatar = 'http://localhost:3333/files/'+user.avatar
+            }
+        }
         return user;
     }
 }

@@ -1,4 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import uploadConfig from '../../../../../config/upload';
+import { Exclude, Expose } from 'class-transformer';
+import upload from '../../../../../config/upload';
 
 @Entity('users')
 class User {
@@ -12,6 +15,7 @@ class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Column()
@@ -22,6 +26,13 @@ class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'avatar_url' })
+  getAvatar_url(): string | null {
+    process.env.APP_API_URL = 'http://localhost:3333';
+    if (!this.avatar) return null;
+    return `${process.env.APP_API_URL}/files/${this.avatar}`;
+  }
 
 }
 

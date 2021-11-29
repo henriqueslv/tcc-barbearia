@@ -1,3 +1,4 @@
+import { injectable, inject } from 'tsyringe';
 import IUsersRepository from '../repositories/IUsersRepository';
 import User from '../infra/typeorm/entities/User';
 
@@ -8,9 +9,12 @@ interface Request{
     old_password: string;
     password: string;
 }
-
+@injectable()
 class UpdateProfileService{
-    constructor(private usersRepository: IUsersRepository){}
+    constructor(
+        @inject('UsersRepository')
+        private usersRepository: IUsersRepository,       
+    ){}
 
     public async execute({ user_id, name, email, old_password, password}: Request): Promise<User>{
 

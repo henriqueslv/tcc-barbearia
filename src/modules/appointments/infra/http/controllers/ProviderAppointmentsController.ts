@@ -1,24 +1,24 @@
 import { Request, Response } from "express";
-import { parseISO } from 'date-fns';
 import AppointmentsRepository from '../../typeorm/repositories/AppointmentsRepository';
-import CreateAppointmentService from '../../../services/CreateAppointmentService';
-import ListProviderAppointmentsService from "src/modules/appointments/services/ListProviderAppointmentsService";
+import { container } from 'tsyringe';
+import { classToClass } from 'class-transformer';
+import ListProviderAppointmentsService from "../../../../../modules/appointments/services/ListProviderAppointmentsService";
 
 export default class ProviderAppointmentsController{
     public async index(request: Request, response: Response): Promise <Response>{
 
           const provider_id = request.user.id;
 
-          const {day, month, year } = request.body;
+          const {day, month, year } = request.query;
         
           const appointmentRepository = new AppointmentsRepository();
           const listProviderAppointments = new ListProviderAppointmentsService(appointmentRepository);
         
           const appointments = await listProviderAppointments.execute({
             provider_id,
-            month,
-            day,
-            year
+            day: Number(day),
+            year: Number(year),
+            month: Number(month),
           });
         
             return response.json(appointments);
